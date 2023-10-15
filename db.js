@@ -439,7 +439,7 @@ function updateExistingStudentInformation(studentToUpdate)
         db.serialize(function()
         {
             const sql =
-                `UPDATE student
+                `UPDATE students
                  SET first_name = ?, last_name = ?, birth_date = ?
                  WHERE id = ?;`;
 
@@ -478,7 +478,7 @@ function deleteExistingStudent(id)
         db.serialize(function()
         {
             const sql =
-                `DELETE FROM student
+                `DELETE FROM students
                  WHERE id = ?`;
 
             function callbackAfterReturnedRowIsProcessed(err, row)

@@ -71,37 +71,37 @@ router.post("/students", async function (req, res)
 {
     try
     {
-        const first_name = req.body.first_name;
-        const last_name = req.body.last_name;
-        const birth_date = req.body.birth_date;
+        const firstName = req.body.first_name;
+        const lastName = req.body.last_name;
+        const birthDate = req.body.birth_date;
 
-        console.log("first_name        = " + first_name);
-        console.log("last_name       = " + last_name);
-        console.log("birth_date = " + birth_date);
+        console.log("first_name        = " + firstName);
+        console.log("last_name       = " + lastName);
+        console.log("birth_date = " + birthDate);
 
-        if (first_name === undefined)
+        if (firstName === undefined)
         {
-            res.status(400).json({"error": "bad request: expected parameter 'code' is not defined"});
+            res.status(400).json({"error": "bad request: expected parameter 'firstName' is not defined"});
             return;
         }
 
-        if (last_name === undefined)
+        if (lastName === undefined)
         {
-            res.status(400).json({"error": "bad request: expected parameter 'title' is not defined"});
+            res.status(400).json({"error": "bad request: expected parameter 'lastName' is not defined"});
             return;
         }
 
-        if (birth_date === undefined)
+        if (birthDate === undefined)
         {
-            res.status(400).json({"error": "bad request: expected parameter 'description' is not defined"});
+            res.status(400).json({"error": "bad request: expected parameter 'birthDate' is not defined"});
             return;
         }
 
         let createdStudent = {
             id: null, // will be initialized by the database, after we insert the record
-            firstName: first_name,
-            lastName: last_name,
-            birthDate: birth_date,
+            firstName: firstName,
+            lastName: lastName,
+            birthDate: birthDate,
         };
 
         createdClass = await db.addNewStudent(createdStudent);
@@ -133,7 +133,62 @@ router.post("/students", async function (req, res)
  */
 router.put("/students/:id", async function (req, res)
 {
-    // TODO: implement this route or the PATCH route below
+    try
+    {
+        const id = req.params.id;
+        const firstName = req.body.first_name;
+        const lastName = req.body.last_name;
+        const birthDate = req.body.birth_date;
+
+        console.log("id          = " + id);
+        console.log("firstName        = " + firstName);
+        console.log("lastName       = " + lastName);
+        console.log("birthDate = " + birthDate);
+
+        if (firstName === undefined)
+        {
+            res.status(400).json({"error": "bad request: expected parameter 'firstName' is not defined"});
+            return;
+        }
+
+        if (lastName === undefined)
+        {
+            res.status(400).json({"error": "bad request: expected parameter 'lastName' is not defined"});
+            return;
+        }
+
+        if (birthDate === undefined)
+        {
+            res.status(400).json({"error": "bad request: expected parameter 'birthDate' is not defined"});
+            return;
+        }
+
+
+        let studentToUpdate = await db.getStudentWithId(id);
+        console.log({studentToUpdate}); // this will pretty print the class object
+
+        if (studentToUpdate == null)
+        {
+            console.log("No student with id " + id + " exists.");
+
+            // return 404 status code (i.e., error that the class was not found)
+            res.status(404).json({"error": "failed to update the student with id = " + id + " in the database because it does not exist"});
+            return;
+        }
+
+        // override the values of all the fields from studentToUpdate with the values from the parameters
+        studentToUpdate.firstName = firstName;
+        studentToUpdate.lastName = lastName;
+        studentToUpdate.birthDate = birthDate;
+
+        await db.updateExistingStudentInformation(studentToUpdate);
+        res.json(studentToUpdate);
+    }
+    catch (err)
+    {
+        console.error("Error:", err.message);
+        res.status(422).json({"error": "failed to update the student with id = " + req.params.id + " in the database"});
+    }
 });
 
 
@@ -153,7 +208,60 @@ router.put("/students/:id", async function (req, res)
  */
 router.patch("/students/:id", async function (req, res)
 {
-    // TODO: implement this route or the PUT route above
+    try
+    {
+        const id = req.params.id;
+        const firstName = req.body.firstName || null;    // if the parameter is not specified, then assign null to code
+        const lastName = req.body.lastName || null;
+        const birthDate = req.body.birth_date || null;
+
+        console.log("id          = " + id);
+        console.log("firstName        = " + firstName);
+        console.log("lastName       = " + lastName);
+        console.log("birthDate = " + birthDate);
+
+        // there is no need to check if the parameters are defined, because they are optional
+        // for a PATCH request
+
+
+        let studentToUpdate = await db.getClassWithId(id);
+        console.log({studentToUpdate});
+
+        if (classToUpdate == null)
+        {
+            console.log("No student with id " + id + " exists.");
+
+            // return 404 status code (i.e., error that the class was not found)
+            res.status(404).json({"error": "failed to update the student with id = " + id + " in the database because it does not exist"});
+            return;
+        }
+
+        // Override the values of all the fields from classToUpdate with the values from the parameters.
+        // If a parameter is not specified in the request, then the corresponding field in classToUpdate
+        // will not be updated and will still have the old value.
+        if (firstName != null)
+        {
+            studentToUpdate.firstName = firstName;
+        }
+
+        if (lastName != null)
+        {
+            studentToUpdate.lastName = lastName;
+        }
+
+        if (birthDate != null)
+        {
+            studentToUpdate.birthDate = birthDate;
+        }
+
+        await db.updateExistingStudentInformation(studentToUpdate);
+        res.json(studentToUpdate);
+    }
+    catch (err)
+    {
+        console.error("Error:", err.message);
+        res.status(422).json({"error": "failed to update the student with id = " + req.params.id + " in the database"});
+    }
 });
 
 
