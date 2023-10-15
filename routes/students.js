@@ -34,6 +34,24 @@ router.get("/students", async function (req, res)
  */
 router.get("/students/:id", async function (req, res)
 {
+    try {
+        const id = req.params.id;
+        console.log("id = ", id);
+
+        const studentWithId = await db.getStudentWithId(id);
+        console.log("studentWithId:", studentWithId);
+
+        if (studentWithId == null) {
+            console.log("No student with id: " + id + " exists");
+            res.status(404).json({"error": "student with id " + id + " not found"});
+            return;
+        }
+        res.send(studentWithId);
+    }
+    catch (err) {
+        console.log("Error:", err.message);
+        res.status(500).json({"error": "Internal server error"});
+    }
 });
 
 

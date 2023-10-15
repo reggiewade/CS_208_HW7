@@ -349,7 +349,7 @@ function getStudentWithId(id)
         db.serialize(function()
         {
             const sql =
-                `SELECT id, first_name, last_name
+                `SELECT id, first_name, last_name, birth_date
                  FROM students
                  WHERE id = ?;`;
 
