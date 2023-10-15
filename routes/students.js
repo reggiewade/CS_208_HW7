@@ -10,7 +10,18 @@ const db = require("./../db");
  */
 router.get("/students", async function (req, res)
 {
-    // TODO: implement this route
+    try {
+        const listOfAllStudents = await db.getAllStudents();
+        console.log("list of students: ", listOfAllStudents);
+
+        //converts to JSON format and returns to client
+        res.send(listOfAllStudents);
+    }
+    catch (err) {
+        console.error("Error:", err.message);
+        res.status(500).json({ "error": "Internal Server Error" });
+    }
+
 });
 
 
@@ -23,7 +34,6 @@ router.get("/students", async function (req, res)
  */
 router.get("/students/:id", async function (req, res)
 {
-    // TODO: implement this route
 });
 
 
