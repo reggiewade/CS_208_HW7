@@ -401,7 +401,7 @@ function addNewStudent(createdStudent)
         db.serialize(function()
         {
             const sql =
-                `INSERT INTO student(first_name, last_name, birth_date)
+                `INSERT INTO students(first_name, last_name, birth_date)
                  VALUES(?,?,?);`;
 
             function callbackAfterReturnedRowIsProcessed(err, row)

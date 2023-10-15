@@ -69,7 +69,51 @@ router.get("/students/:id", async function (req, res)
  */
 router.post("/students", async function (req, res)
 {
-    // TODO: implement this route
+    try
+    {
+        const first_name = req.body.first_name;
+        const last_name = req.body.last_name;
+        const birth_date = req.body.birth_date;
+
+        console.log("first_name        = " + first_name);
+        console.log("last_name       = " + last_name);
+        console.log("birth_date = " + birth_date);
+
+        if (first_name === undefined)
+        {
+            res.status(400).json({"error": "bad request: expected parameter 'code' is not defined"});
+            return;
+        }
+
+        if (last_name === undefined)
+        {
+            res.status(400).json({"error": "bad request: expected parameter 'title' is not defined"});
+            return;
+        }
+
+        if (birth_date === undefined)
+        {
+            res.status(400).json({"error": "bad request: expected parameter 'description' is not defined"});
+            return;
+        }
+
+        let createdStudent = {
+            id: null, // will be initialized by the database, after we insert the record
+            firstName: first_name,
+            lastName: last_name,
+            birthDate: birth_date,
+        };
+
+        createdClass = await db.addNewStudent(createdStudent);
+
+        // return 201 status code (i.e., created)
+        res.status(201).json(createdStudent);
+    }
+    catch (err)
+    {
+        console.error("Error:", err.message);
+        res.status(422).json({"error": "failed to add new student to the database"});
+    }
 });
 
 
