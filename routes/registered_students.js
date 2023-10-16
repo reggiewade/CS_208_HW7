@@ -37,7 +37,30 @@ router.get("/registered_students", async function (req, res)
  */
 router.post("/add_student_to_class", async function (req, res)
 {
-    // TODO: implement this route
+    try {
+        const studentId = req.body.studentId;
+        const classId = req.body.classId;
+
+        console.log("studentId    =", + studentId);
+        console.log("classId      =" + classId);
+
+        if(studentId == undefined) {
+            res.status(400).json({"error": "bad request: expected parameter 'studentId' is not defined"});
+            return;
+        }
+
+        if (classId == undefined) {
+            res.status(400).json({"error": "bad request: expected parameter 'studentId' is not defined"});
+            return;
+        }
+
+        numberOfRowsAffected = await db.addStudentToClass(studentId, classId);
+        console.log("numberOfRowsAffected    =" + numberOfRowsAffected);
+    }
+    catch (err) {
+        console.error("Error:", err.message);
+        res.status(422).json({"error": "failed to add the student with id = " + req.body.id + " in the database to class = " + req.body.classId});
+    }
 });
 
 
