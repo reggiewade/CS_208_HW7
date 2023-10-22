@@ -54,8 +54,11 @@ router.post("/add_student_to_class", async function (req, res)
             return;
         }
 
-        numberOfRowsAffected = await db.addStudentToClass(studentId, classId);
-        console.log("numberOfRowsAffected    =" + numberOfRowsAffected);
+        studentId_affected = await db.addStudentToClass(studentId, classId);
+        console.log("studentId_affected    =" + studentId_affected);
+        console.log("class_id_affected    =" + classId);
+
+        res.send(JSON.stringify({"studentId": studentId_affected, "classId": classId}));
     }
     catch (err) {
         console.error("Error:", err.message);
@@ -76,7 +79,7 @@ router.post("/add_student_to_class", async function (req, res)
  * @throws a 404 status code if the student with id = {studentId} does not exist
  * @throws a 404 status code if the class with id = {classId} does not exist
  */
-router.delete("/drop_student_from_class", async function (req, res)
+router.delete("/drop_student_from_class/:studentId/:classId", async function (req, res)
 {
     try {
         const studentId = req.params.studentId;
@@ -89,13 +92,15 @@ router.delete("/drop_student_from_class", async function (req, res)
             res.status(400).json({"error": "bad request: expected parameter 'studentId' is not defined"});
             return;
         }
-        if (studentId == undefined) {
+        if (classId == undefined) {
             res.status(400).json({"error": "bad request: expected parameter 'studentId' is not defined"});
             return;
         }
 
-        numberOfRowsAffected = await db.dropAnExistingStudentFromAClass(studentId, classId);
-        console.log("numberOfRowsAffected    =" + numberOfRowsAffected);
+        studentId_affected = await db.dropAnExistingStudentFromAClass(studentId, classId);
+        console.log("student_Id_affected    =" + studentId_affected);
+        console.log("class_id_affected    =" + classId);
+        res.send(JSON.stringify({"studentId": studentId_affected, "classId": classId}));
     }
     catch (err) {
         console.error("Error:", err.message);
