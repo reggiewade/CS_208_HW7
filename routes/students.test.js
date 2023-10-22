@@ -9,7 +9,43 @@ describe('REST APIs for students', () =>
 {
     describe('GET /students', () =>
     {
-        // TODO: add your tests
+        test('should return a 200 (ok) status code', async() =>
+        {
+            // version 1
+            const response = await request.get('/students');
+            expect(response.status).toBe(200);
+
+            // or
+
+            // version 2
+            await request.get('/students').expect(200);
+        });
+
+        test('should have Content-Type "application/json"', async() =>
+        {
+            const response = await request.get('/students');
+            expect(response.header['content-type']).toMatch(/application\/json/);
+
+            // or
+
+            await request.get('/students').expect('Content-Type', /application\/json/);
+        });
+
+        test('should contain the key "first_name" in the first class returned as a JSON response', async() =>
+        {
+            const response = await request.get('/students');
+            const response_content_as_json = response.body;
+
+            expect(response_content_as_json[0]).toHaveProperty('first_name');
+        });
+
+        test('should contain "Alice" in the first class code returned as a JSON response', async() =>
+        {
+            const response = await request.get('/students');
+            const response_content_as_json = response.body;
+
+            expect(response_content_as_json[0].first_name).toBe('Alice');
+        });
     });
 
     describe('GET /students/:id', () =>
