@@ -14,11 +14,6 @@ describe('REST APIs for students', () =>
             // version 1
             const response = await request.get('/students');
             expect(response.status).toBe(200);
-
-            // or
-
-            // version 2
-            await request.get('/students').expect(200);
         });
 
         test('should have Content-Type "application/json"', async() =>
@@ -50,7 +45,13 @@ describe('REST APIs for students', () =>
 
     describe('GET /students/:id', () =>
     {
-        // TODO: add your tests
+        test('should return a 200 (ok) status code', async() =>
+        {
+            const response = await request.get('/students/1');
+            const response_content_as_json = response.body;
+
+            expect(response.status).toBe(200);
+        })
     });
 
     describe('POST /students', () =>

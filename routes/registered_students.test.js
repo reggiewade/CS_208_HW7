@@ -9,12 +9,19 @@ describe('REST APIs for registered_students', () =>
 {
     describe('GET /registered_students', () =>
     {
-        // TODO: add your tests
+        test('should return a 200 (ok) status code', async() =>
+        {
+            const response = await request.get('/registered_students');
+            expect(response.status).toBe(200);
+        })
     });
 
     describe('POST /add_student_to_class', () =>
     {
-        // TODO: add your tests
+        test('should return a 200 (ok) status code', async() =>
+        {
+            
+        })
     });
 
     describe('DELETE /drop_student_from_class', () =>
