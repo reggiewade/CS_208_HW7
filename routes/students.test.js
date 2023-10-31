@@ -11,7 +11,6 @@ describe('REST APIs for students', () =>
     {
         test('should return a 200 (ok) status code', async() =>
         {
-            // version 1
             const response = await request.get('/students');
             expect(response.status).toBe(200);
         });
@@ -20,10 +19,6 @@ describe('REST APIs for students', () =>
         {
             const response = await request.get('/students');
             expect(response.header['content-type']).toMatch(/application\/json/);
-
-            // or
-
-            await request.get('/students').expect('Content-Type', /application\/json/);
         });
 
         test('should contain the key "first_name" in the first class returned as a JSON response', async() =>
@@ -56,12 +51,38 @@ describe('REST APIs for students', () =>
 
     describe('POST /students', () =>
     {
-        // TODO: add your tests
+        test('should return a 201 (created) status code', async() =>
+        {
+            const form_data = {
+                first_name: 'Reggie',
+                last_name: 'Wade',
+                birth_date: '2003-12-01'
+            };
+
+            const response = await request
+                .post('/students')
+                .type('form')
+                .send(form_data);
+            expect(response.status).toBe(201);
+        })
     });
 
     describe('PUT /students/:id', () =>
     {
-        // TODO: add your tests
+        test('should return a 422 (unprocessable entity) status code', async() =>
+        {
+            const form_data = {
+                first_name: 'Alice',
+                last_name: 'Angesi',
+                birth_date: '1991-01-01'
+            };
+
+            const response = await request
+                .put('/students/3')
+                .type('form')
+                .send(form_data);
+            expect(response.status).toBe(422);
+        })
     });
 
     describe('PATCH /students/:id', () =>

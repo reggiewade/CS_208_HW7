@@ -141,23 +141,23 @@ router.put("/students/:id", async function (req, res)
         const birthDate = req.body.birth_date;
 
         console.log("id          = " + id);
-        console.log("firstName        = " + firstName);
-        console.log("lastName       = " + lastName);
-        console.log("birthDate = " + birthDate);
+        console.log("first_name        = " + first_name);
+        console.log("last_name       = " + last_name);
+        console.log("birth_date = " + birth_date);
 
-        if (firstName === undefined)
+        if (first_name === undefined)
         {
             res.status(400).json({"error": "bad request: expected parameter 'firstName' is not defined"});
             return;
         }
 
-        if (lastName === undefined)
+        if (last_name === undefined)
         {
             res.status(400).json({"error": "bad request: expected parameter 'lastName' is not defined"});
             return;
         }
 
-        if (birthDate === undefined)
+        if (birth_date === undefined)
         {
             res.status(400).json({"error": "bad request: expected parameter 'birthDate' is not defined"});
             return;
