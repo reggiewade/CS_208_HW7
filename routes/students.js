@@ -141,23 +141,23 @@ router.put("/students/:id", async function (req, res)
         const birthDate = req.body.birth_date;
 
         console.log("id          = " + id);
-        console.log("first_name        = " + first_name);
-        console.log("last_name       = " + last_name);
-        console.log("birth_date = " + birth_date);
+        console.log("first_name        = " + firstName);
+        console.log("last_name       = " + lastName);
+        console.log("birth_date = " + birthDate);
 
-        if (first_name === undefined)
+        if (firstName === undefined)
         {
             res.status(400).json({"error": "bad request: expected parameter 'firstName' is not defined"});
             return;
         }
 
-        if (last_name === undefined)
+        if (lastName === undefined)
         {
             res.status(400).json({"error": "bad request: expected parameter 'lastName' is not defined"});
             return;
         }
 
-        if (birth_date === undefined)
+        if (birthDate === undefined)
         {
             res.status(400).json({"error": "bad request: expected parameter 'birthDate' is not defined"});
             return;
@@ -211,8 +211,8 @@ router.patch("/students/:id", async function (req, res)
     try
     {
         const id = req.params.id;
-        const firstName = req.body.firstName || null;    // if the parameter is not specified, then assign null to code
-        const lastName = req.body.lastName || null;
+        const firstName = req.body.first_name || null;    // if the parameter is not specified, then assign null to code
+        const lastName = req.body.last_name || null;
         const birthDate = req.body.birth_date || null;
 
         console.log("id          = " + id);
@@ -224,10 +224,10 @@ router.patch("/students/:id", async function (req, res)
         // for a PATCH request
 
 
-        let studentToUpdate = await db.getClassWithId(id);
+        let studentToUpdate = await db.getStudentWithId(id);
         console.log({studentToUpdate});
 
-        if (classToUpdate == null)
+        if (studentToUpdate == null)
         {
             console.log("No student with id " + id + " exists.");
 
@@ -236,8 +236,8 @@ router.patch("/students/:id", async function (req, res)
             return;
         }
 
-        // Override the values of all the fields from classToUpdate with the values from the parameters.
-        // If a parameter is not specified in the request, then the corresponding field in classToUpdate
+        // Override the values of all the fields from studentToUpdate with the values from the parameters.
+        // If a parameter is not specified in the request, then the corresponding field in studentToUpdate
         // will not be updated and will still have the old value.
         if (firstName != null)
         {
