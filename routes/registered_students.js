@@ -35,7 +35,7 @@ router.get("/registered_students", async function (req, res)
  * The parameters passed in the body of the POST request will be inserted
  * into the registered_students table in the database.
  */
-router.post("/add_student_to_class", async function (req, res)
+router.post("/registered_students", async function (req, res)
 {
     try {
         const studentId = req.body.studentId;
@@ -79,7 +79,7 @@ router.post("/add_student_to_class", async function (req, res)
  * @throws a 404 status code if the student with id = {studentId} does not exist
  * @throws a 404 status code if the class with id = {classId} does not exist
  */
-router.delete("/drop_student_from_class/:studentId/:classId", async function (req, res)
+router.delete("/registered_students/:studentId/:classId", async function (req, res)
 {
     try {
         const studentId = req.params.studentId;

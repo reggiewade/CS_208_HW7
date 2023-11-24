@@ -87,7 +87,20 @@ describe('REST APIs for students', () =>
 
     describe('PATCH /students/:id', () =>
     {
-        // TODO: add your tests
+        test('should return a 422 (unprocessable entity) status code', async() =>
+        {
+            const form_data = {
+                first_name: 'Alice',
+                last_name: 'Angesi',
+                birth_date: '1991-01-01'
+            };
+
+            const response = await request
+                .patch('/students/3')
+                .type('form')
+                .send(form_data);
+            expect(response.status).toBe(422);
+        })
     });
 
     describe('DELETE /students/:id', () =>
