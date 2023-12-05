@@ -26,7 +26,7 @@ describe('REST APIs for students', () =>
             const response = await request.get('/students');
             const response_content_as_json = response.body;
 
-            expect(response_content_as_json[0]).toHaveProperty('first_name');
+            expect(response_content_as_json[0]).toHaveProperty('firstName');
         });
 
         test('should contain "Alice" in the first class code returned as a JSON response', async() =>
@@ -34,7 +34,7 @@ describe('REST APIs for students', () =>
             const response = await request.get('/students');
             const response_content_as_json = response.body;
 
-            expect(response_content_as_json[0].first_name).toBe('Alice');
+            expect(response_content_as_json[0].firstName).toBe('Alice');
         });
     });
 
@@ -69,7 +69,7 @@ describe('REST APIs for students', () =>
 
     describe('PUT /students/:id', () =>
     {
-        test('should return a 422 (unprocessable entity) status code', async() =>
+        test('should return a 200 (ok) status code', async() =>
         {
             const form_data = {
                 first_name: 'Alice',
@@ -81,13 +81,13 @@ describe('REST APIs for students', () =>
                 .put('/students/3')
                 .type('form')
                 .send(form_data);
-            expect(response.status).toBe(422);
+            expect(response.status).toBe(200);
         })
     });
 
     describe('PATCH /students/:id', () =>
     {
-        test('should return a 422 (unprocessable entity) status code', async() =>
+        test('should return a 200 (ok) status code', async() =>
         {
             const form_data = {
                 first_name: 'Alice',
@@ -99,7 +99,7 @@ describe('REST APIs for students', () =>
                 .patch('/students/3')
                 .type('form')
                 .send(form_data);
-            expect(response.status).toBe(422);
+            expect(response.status).toBe(200);
         })
     });
 
